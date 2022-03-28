@@ -21,6 +21,7 @@ public class Category implements Serializable {
 	@Column(nullable = true, unique = true)
 	private String name;
 	
+	
 	public Category() {
 	}
 	
@@ -29,6 +30,7 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
+	
 	public Long getId() {
 		return id;
 	}
