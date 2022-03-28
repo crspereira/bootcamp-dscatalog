@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dscatalog.dto.CategoryDto;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
+import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
 
 @Service
 public class CategoryService {
@@ -33,7 +34,7 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryDto findById(Long id) {
 		Optional<Category> obj = categoryRepository.findById(id);
-		Category category = obj.get();
+		Category category = obj.orElseThrow(() -> new EntityNotFoundException("Entity Not Found!"));
 		return new CategoryDto(category);
 	}
 
