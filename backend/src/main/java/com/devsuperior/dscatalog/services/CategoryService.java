@@ -38,4 +38,11 @@ public class CategoryService {
 		return new CategoryDto(category);
 	}
 
+	public CategoryDto insert(CategoryDto categoryDto) {
+		Category category = new Category();
+		category.setName(categoryDto.getName());
+		category = categoryRepository.save(category);
+		return new CategoryDto(category);	
+	}
+
 }
