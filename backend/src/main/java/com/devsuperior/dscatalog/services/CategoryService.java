@@ -3,6 +3,8 @@ package com.devsuperior.dscatalog.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dscatalog.dto.CategoryDto;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
-import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
+import com.devsuperior.dscatalog.services.exceptions.ServiceNotFoundException;
 
 @Service
 public class CategoryService {
@@ -34,10 +36,11 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryDto findById(Long id) {
 		Optional<Category> obj = categoryRepository.findById(id);
-		Category category = obj.orElseThrow(() -> new EntityNotFoundException("Entity Not Found!"));
+		Category category = obj.orElseThrow(() -> new ServiceNotFoundException("Entity Not Found!"));
 		return new CategoryDto(category);
 	}
-
+	
+	@Transactional
 	public CategoryDto insert(CategoryDto categoryDto) {
 		Category category = new Category();
 		category.setName(categoryDto.getName());
@@ -45,4 +48,16 @@ public class CategoryService {
 		return new CategoryDto(category);	
 	}
 
+	@Transactional
+	public CategoryDto update(Long id, CategoryDto categoryDto) {
+		try {
+			Category newCategory = categoryRepository.getById(id); //cria apenas uma referencia da Entidade
+			newCategory.setName(categoryDto.getName());
+			newCategory = categoryRepository.save(newCategory);	
+			return new CategoryDto(newCategory);
+		} catch (EntityNotFoundException e) {
+			throw new ServiceNotFoundException("ID [5] Not Found!");
+		}
+	}
+	
 }
