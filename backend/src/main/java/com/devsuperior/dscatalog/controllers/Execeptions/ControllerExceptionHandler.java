@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.devsuperior.dscatalog.services.exceptions.ServiceDataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ServiceNotFoundException;
 
 @ControllerAdvice
@@ -18,6 +19,19 @@ public class ControllerExceptionHandler {
 	public ResponseEntity<StandardErrorResponse> entityNotFound(ServiceNotFoundException e, HttpServletRequest request) {
 		StandardErrorResponse error = new StandardErrorResponse();
 		HttpStatus errorStatus = HttpStatus.NOT_FOUND;
+		
+		error.setTimestamp(Instant.now());
+		error.setStatus(errorStatus.value());
+		error.setError(e.getMessage());
+		error.setPath(request.getRequestURI());
+		
+		return ResponseEntity.status(errorStatus).body(error);
+	}
+	
+	@ExceptionHandler(ServiceDataBaseException.class)
+	public ResponseEntity<StandardErrorResponse> dataBaseIntegrity(ServiceDataBaseException e, HttpServletRequest request) {
+		StandardErrorResponse error = new StandardErrorResponse();
+		HttpStatus errorStatus = HttpStatus.BAD_REQUEST;
 		
 		error.setTimestamp(Instant.now());
 		error.setStatus(errorStatus.value());
