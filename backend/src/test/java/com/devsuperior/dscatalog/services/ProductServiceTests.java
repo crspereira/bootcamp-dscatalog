@@ -32,7 +32,7 @@ import com.devsuperior.dscatalog.services.exceptions.ServiceDataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ServiceNotFoundException;
 
 @ExtendWith(SpringExtension.class)
-public class ProductServiceTest {
+public class ProductServiceTests {
 	
 	@InjectMocks
 	private ProductService service;
@@ -50,11 +50,12 @@ public class ProductServiceTest {
 	private long existingCategoryId;
 	private Product product;
 	private Category category;
-	ProductDto productDto;
+	private ProductDto productDto;
 	private PageImpl<Product> page; //instância fake de uma página
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		
 		existingId = 1L;
 		nonExistingId = 30L;
 		dependentId= 3L;
