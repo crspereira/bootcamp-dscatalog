@@ -178,6 +178,7 @@ public class ProductControllerIntegrationTests {
 	}
 	
 //	@Test
+//	@Transactional(propagation = Propagation.NEVER) 
 //	public void deleteShouldReturnBadRequestWhenIdDoesNotExist() throws Exception {
 //		// arrange
 //		//existingId = 1L;

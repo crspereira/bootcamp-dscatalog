@@ -172,6 +172,7 @@ public class ProductServiceIntegrationTests {
 	}
 	
 //	@Test
+//	@Transactional(propagation = Propagation.NEVER) 
 //	public void deleteShouldReturnServiceDataBaseExceptionWhenIdDoesNotExist() {
 //		// arrange
 //		//countTotalProducts= 25;
